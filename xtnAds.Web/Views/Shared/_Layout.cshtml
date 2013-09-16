@@ -1,0 +1,89 @@
+﻿@using System.Web.Optimization
+@{
+	ViewBag.Title = "xtnAds";
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        @Styles.Render("~/Content/css")
+        <!--[if lt IE 9]>
+            <script src="../../Shivs/html5shiv.js"></script>
+        <![endif]-->
+        <title>@ViewBag.Title</title>
+    </head>
+	<body>
+        <div id="#main-wrapper">
+            <div id="nav-wrapper">
+                <header>
+                    <div id="logo-box">
+                        <a href="#/" title="Home"><h1>XTN</h1><h2><span>A</span><span>d</span><span>s</span></h2></a>
+                    </div>
+                </header>
+                <nav>
+                    <div class="expanded-menu-box">
+                        <a id="ads-link" href="#">Links</a>
+                        <a id="ads-link" class="nav-sub-link" href="#/Home/Ads" >Ads</a>
+                        <a id="photos-link" class="nav-sub-link" href="#/Home/Photos" >Photos</a>
+                        <a id="aboutuss-link" class="nav-sub-link" href="#/Home/About" >About Us</a>
+                    </div>
+                    <ul><li id="chat-menu-box"><a id="chat-link" href="javascript:;" onClick="toggleChat('chat-window-wrapper');">Chat</a>
+                        </li><li id="chat-window-wrapper">
+                                 <div>
+                                     <label id="Id">Nickname:</label><input type="text" id="input-nickname-area" class="input-area" maxlength="20" />
+                                     <div id="input-chat-area"></div>
+                                     <input type="text" id="input-message-area" class="input-area" maxlength="1000" placeholder="Message" />
+                                 </div>
+                             </li></ul>
+                </nav>
+            </div>
+            <div id="content-wrapper">
+                @RenderBody()
+            </div>
+            <footer>All Rights Reserved @DateTime.Now.Year</footer>
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        <script type="text/javascript" src="../../Scripts/sammy-0.7.4.min.js"></script>
+		<script src="../../Scripts/modernizr-2.6.2.js"></script>   
+		<script src="../../Scripts/jquery.signalR-1.1.3.min.js"></script>  
+        <script src="../../Scripts/date.format.js"></script> 
+        @Scripts.Render("~/bundles/site")
+        @Scripts.Render("~/bundles/chat")
+        <link rel="stylesheet" href="../../FancyBox/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+        <script type="text/javascript" src="../../FancyBox/jquery.fancybox.pack.js?v=2.1.5"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".fancybox").fancybox();
+            });
+        </script>
+        <script type="text/javascript">
+            window.load((function($) {
+                var app = $.sammy(function() {
+
+                    this.get('#/', function (context) {
+                        $('#content-wrapper').load('/Home/Menu');
+                    });
+                    
+                    this.get('#/Home/Ads', function(context) {
+                        $('#content-wrapper').load('/Home/Ads');
+                    });
+
+                    this.get('#/Home/Photos', function(context) {
+                        $('#content-wrapper').load('/Home/Photos');
+                    });
+
+                    this.get('#/Home/About', function(context) {
+                        $('#content-wrapper').load('/Home/About');
+                    });
+                });
+                $(function() {
+                    app.run('#/');
+                });
+            })(jQuery));
+        </script>
+    </body>
+</html>

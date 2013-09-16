@@ -1,0 +1,88 @@
+﻿@using System.Web.Optimization
+@model xtnAds.Web.Models.Contact
+
+@{
+    ViewBag.Title = "aboutus";
+}
+
+<div id="about-page-wrapper"><p>WE DESIGN
+                                 all kinds of creative stuff. From beautifully designed, functional websites to memorable logos, as well as creatively crafted print designs. Need our help? We’re always open to new ideas for projects, so get in touch with us today.</p>
+    <div>
+         <div id="about-info-list-wrapper">
+            <ul id="about-info-list">
+                <li>
+                    <div id="about-page-address"><div id="address-background-image"></div><span>1234 Main Street</span></div>
+                </li><li>
+                            <div id="about-page-phone"><div id="phone-background-image"></div><span>1-800-XTNADS</span></div>
+                        </li><li><a href="mailto:service@xtnads.com"><div id="about-page-email"><div id="email-background-image"></div><span>service@xtnads.com</span></div></a></li>
+            </ul>
+        </div> 
+        <div id="feedback-wrapper">
+            <form id="upload" action="/Home/About" enctype="multipart/form-data" method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <fieldset>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Phone)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Phone)
+                        @Html.ValidationMessageFor(model => model.Phone)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Email)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Email)
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Feedback)
+                    </div>
+                    <div class="editor-field">
+                        @Html.TextAreaFor(model => model.Feedback)
+                        @Html.ValidationMessageFor(model => model.Feedback)
+                    </div>
+                    
+                    <p><input type="submit" id="about-page-send" value="Send" /></p>
+                   
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function(){ 
+        $('#upload').submit(function(e) {
+            e.preventDefault();
+            var f = $("input[type=submit]").parents("form");
+            var action = f.attr("action");
+            var serializedForm = f.serialize();
+            
+            if (f.valid()) {
+                $.ajax({
+                    type: 'POST',
+                    url: action,
+                    data: serializedForm
+                })
+                 .done(function (data, textStatus, request) {
+                     document.getElementById("upload").reset();
+                 });
+                return false;
+            }
+        });
+    });
+</script>
+
